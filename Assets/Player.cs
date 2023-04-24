@@ -20,9 +20,11 @@ public class Player : MonoBehaviour
     private float _dashCooldownTimer;
 
     [Header("Attack info")] 
+    [SerializeField]private float comboTime = .3f;
+    private float _comboTimeWindow;
     private bool _isAttacking;
     private int _comboCounter;
-    
+
     private float _xInput;
     
     private int _facingDir = 1;
@@ -49,7 +51,7 @@ public class Player : MonoBehaviour
 
         dashTime -= Time.deltaTime;
         _dashCooldownTimer -= Time.deltaTime;
-       
+        _comboTimeWindow -= Time.deltaTime;
         
         FlipController();
         AnimatorControllers();
@@ -58,6 +60,11 @@ public class Player : MonoBehaviour
     public void AttackOver()
     {
         _isAttacking = false;
+
+        _comboCounter++;
+
+        if (_comboCounter > 2)
+            _comboCounter = 0;
     }
 
     private void CollisionChecks()
@@ -71,7 +78,7 @@ public class Player : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Mouse0))
         {
-            _isAttacking = true;
+            StartAttackEvent();
         }
         
         if (Input.GetKeyDown(KeyCode.Space))
@@ -85,9 +92,21 @@ public class Player : MonoBehaviour
         }
     }
 
+    private void StartAttackEvent()
+    {
+        if(!_isGrounded)
+            return;
+        
+        if (_comboTimeWindow < 0)
+            _comboCounter = 0;
+             
+        _isAttacking = true;
+        _comboTimeWindow = comboTime;
+    }
+
     private void DashAbility()
     {
-        if (_dashCooldownTimer < 0)
+        if (_dashCooldownTimer < 0 && !_isAttacking)
         {
             _dashCooldownTimer = dashCooldown;
             dashTime = dashDuration;
@@ -96,9 +115,13 @@ public class Player : MonoBehaviour
 
     private void Movement()
     {
-        if (dashTime > 0)
+        if (_isAttacking)
         {
-            _rb.velocity = new Vector2(_xInput * dashSpeed, 0);
+            _rb.velocity = new Vector2(0, 0);
+        }
+        else if (dashTime > 0)
+        {
+            _rb.velocity = new Vector2(_facingDir * dashSpeed, 0);
         }
         else
         {
