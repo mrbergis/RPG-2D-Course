@@ -395,7 +395,11 @@ MonoBehaviour:
   whatsIsGround:
     serializedVersion: 2
     m_Bits: 64
-  moveSpeed: 1
+  moveSpeed: 3.5
+  playerCheckDistance: 4
+  whatIsPlayer:
+    serializedVersion: 2
+    m_Bits: 8
 --- !u!70 &1028769893
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -609,7 +613,7 @@ GameObject:
   - component: {fileID: 1866679999}
   - component: {fileID: 1866680004}
   - component: {fileID: 1866680003}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}

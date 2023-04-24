@@ -140,5 +140,11 @@ public class Player : Entity
         else if (_rb.velocity.x < 0 && _facingRight)
             Flip();
     }
-    
+
+    protected override void CollisionChecks()
+    {
+        base.CollisionChecks();
+        
+        
+    }
 }
