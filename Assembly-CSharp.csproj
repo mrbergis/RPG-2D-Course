@@ -43,6 +43,7 @@
   <ItemGroup>
      <Compile Include="Assets/Player.cs" />
      <Compile Include="Assets/PlayerAnimEvents.cs" />
+     <Compile Include="Assets/Entity.cs" />
      <Folder Include="Assets" />
      <Folder Include="Assets/Scenes" />
      <Folder Include="Assets/Graphics" />
